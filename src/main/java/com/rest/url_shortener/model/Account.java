@@ -1,18 +1,21 @@
 package com.rest.url_shortener.model;
 
 import lombok.Data;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
 public class Account {
 
     private @Id @GeneratedValue Long id;
+    @Column(nullable = false)
     private String accountId;
     private String password;
 
+    @OneToMany(mappedBy = "account")
+    private Set<Url> urls;
 
     public Account(){}
 
@@ -35,6 +38,14 @@ public class Account {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public Set<Url> getUrls(){
+        return urls;
+    }
+
+    public void setUrls(Set<Url> urls){
+        this.urls = urls;
     }
 
     public String generatePassword(){

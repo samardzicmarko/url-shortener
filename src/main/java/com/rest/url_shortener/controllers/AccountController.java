@@ -2,6 +2,7 @@ package com.rest.url_shortener.controllers;
 
 import com.rest.url_shortener.model.Account;
 import com.rest.url_shortener.repository.AccountRepository;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -31,6 +32,7 @@ public class AccountController {
             return map;
         }
         if (!repository.existsAccountByAccountId(account.getAccountId())) {
+
                 System.out.print(account);
                 Account newAcc = new Account();
                 newAcc.setAccountId(account.getAccountId());

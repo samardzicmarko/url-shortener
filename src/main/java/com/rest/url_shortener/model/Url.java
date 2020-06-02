@@ -2,17 +2,27 @@ package com.rest.url_shortener.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Data
 @Entity
 public class Url {
+
     private @Id @GeneratedValue Long id;
     private String uri;
     private String shortUri;
+
+    @ManyToOne
+    @JoinColumn()
+    private Account account;
+
+    public Account getAccount(){
+        return account;
+    }
+    public void setAccount(Account account){
+        this.account = account;
+    }
 
     public Url(){}
 
