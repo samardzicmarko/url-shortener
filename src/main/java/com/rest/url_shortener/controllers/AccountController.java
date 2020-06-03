@@ -33,7 +33,6 @@ public class AccountController {
         }
         if (!repository.existsAccountByAccountId(account.getAccountId())) {
 
-                System.out.print(account);
                 Account newAcc = new Account();
                 newAcc.setAccountId(account.getAccountId());
                 newAcc.setPassword(account.generatePassword());

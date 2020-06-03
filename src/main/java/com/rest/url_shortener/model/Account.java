@@ -14,8 +14,8 @@ public class Account {
     private String accountId;
     private String password;
 
-    @OneToMany(mappedBy = "account")
-    private Set<Url> urls;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "account", cascade = CascadeType.ALL)
+    private Set<Url> urlList;
 
     public Account(){}
 
@@ -27,9 +27,10 @@ public class Account {
         this.password = password;
     }
 
-    Account(String AccountId, String password){
+    Account(String AccountId, String password, Set<Url> urlList){
         this.accountId = AccountId;
         this.password = generatePassword();
+        this.urlList = urlList;
     }
 
     public String getAccountId() {
@@ -41,11 +42,11 @@ public class Account {
     }
 
     public Set<Url> getUrls(){
-        return urls;
+        return urlList;
     }
 
-    public void setUrls(Set<Url> urls){
-        this.urls = urls;
+    public void setUrlList(Set<Url> urlList){
+        this.urlList = urlList;
     }
 
     public String generatePassword(){

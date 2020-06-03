@@ -3,18 +3,29 @@ package com.rest.url_shortener.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
-@Data
 @Entity
 public class Url {
 
     private @Id @GeneratedValue Long id;
     private String uri;
     private String shortUri;
+    private String setShortKey;
 
-    @ManyToOne
-    @JoinColumn()
+    public String getSetShortKey() {
+        return setShortKey;
+    }
+
+    public void setSetShortKey(String setShortKey) {
+        this.setShortKey = setShortKey;
+    }
+
+    private int visits;
+    private int redirectType;
+
+    @ManyToOne()
     private Account account;
 
     public Account getAccount(){
@@ -26,7 +37,16 @@ public class Url {
 
     public Url(){}
 
-    Url(String Uri, String ShortUri){
+    public int getRedirectType() {
+        return redirectType;
+    }
+
+    public void setRedirectType(int redirectType) {
+        this.redirectType = redirectType;
+    }
+
+    Url(Long id, String Uri, String ShortUri){
+        this.id = id;
         this.shortUri = ShortUri;
         this.uri = Uri;
     }
@@ -47,6 +67,14 @@ public class Url {
         this.shortUri = shortUri;
     }
 
+    public int getVisits() {
+        return visits;
+    }
+
+    public void setVisits(int visits) {
+        this.visits = visits;
+    }
+
     public String generateRandomString(){
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz";
         StringBuilder sb = new StringBuilder(5);
@@ -59,4 +87,14 @@ public class Url {
         return sb.toString();
     }
 
+    @ManyToOne
+    private Account manyToOne;
+
+    public Account getManyToOne() {
+        return manyToOne;
+    }
+
+    public void setManyToOne(Account manyToOne) {
+        this.manyToOne = manyToOne;
+    }
 }
