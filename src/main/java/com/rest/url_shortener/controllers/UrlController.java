@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.HashMap;
@@ -78,27 +77,39 @@ public class UrlController {
 
 
     @PostMapping(value = "/register", consumes = "application/json", produces="application/json")
-    public Map<String, String> registerUrl(@RequestBody Url uri) {
+    public Map<String, String> registerUrl(@RequestBody Url uri, HttpServletResponse response) {
         if (uri.getUri() == null){
             System.out.print(uri);
             HashMap<String, String> map = new HashMap<>();
-            map.put("Status:", "Failed, uri is required");
+            map.put("Error:", "Url is not provided");
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return map;
         } else {
 
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            String accName = auth.getName();
-            Account current = accountRepository.findAccountByAccountId(accName);
-            Url newUrl = new Url();
-            newUrl.setAccount(current);
-            newUrl.setUri(uri.getUri());
+            boolean isRegistrated = repository.existsUrlByUri(uri.getUri());
 
-            HashMap<String, String> map = new HashMap<>();
-            String randomSet = GenerateRandomString.make(6);
-            makeUrlShort(randomSet, newUrl);
-            map.put("shorted", newUrl.getShortUri());
-            repository.save(newUrl);
-            return map;
+            if (isRegistrated){
+                HashMap<String, String> map = new HashMap<>();
+                map.put("String", "Url is already shortened and registrated");
+                response.setStatus(HttpServletResponse.SC_FOUND);
+                return map;
+            } else {
+
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                String accName = auth.getName();
+                Account current = accountRepository.findAccountByAccountId(accName);
+                Url newUrl = new Url();
+                newUrl.setAccount(current);
+                newUrl.setUri(uri.getUri());
+
+                HashMap<String, String> map = new HashMap<>();
+                String randomSet = GenerateRandomString.make(6);
+                makeUrlShort(randomSet, newUrl);
+                map.put("shorted", newUrl.getShortUri());
+                response.setStatus(HttpServletResponse.SC_CREATED);
+                repository.save(newUrl);
+                return map;
+            }
 
         }
 
