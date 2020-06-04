@@ -1,9 +1,6 @@
 package com.rest.url_shortener.model;
 
-import lombok.Data;
-
 import javax.persistence.*;
-import java.io.Serializable;
 
 
 @Entity
@@ -37,20 +34,6 @@ public class Url {
 
     public Url(){}
 
-    public int getRedirectType() {
-        return redirectType;
-    }
-
-    public void setRedirectType(int redirectType) {
-        this.redirectType = redirectType;
-    }
-
-    Url(Long id, String Uri, String ShortUri){
-        this.id = id;
-        this.shortUri = ShortUri;
-        this.uri = Uri;
-    }
-
     public String getUri() {
         return uri;
     }
@@ -75,26 +58,4 @@ public class Url {
         this.visits = visits;
     }
 
-    public String generateRandomString(){
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz";
-        StringBuilder sb = new StringBuilder(5);
-
-        for (int i = 0; i<5; i++){
-            int index = (int) (characters.length() * Math.random());
-            sb.append(characters.charAt(index));
-        }
-
-        return sb.toString();
-    }
-
-    @ManyToOne
-    private Account manyToOne;
-
-    public Account getManyToOne() {
-        return manyToOne;
-    }
-
-    public void setManyToOne(Account manyToOne) {
-        this.manyToOne = manyToOne;
-    }
 }

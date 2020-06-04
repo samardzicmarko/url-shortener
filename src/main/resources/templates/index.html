@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+
+
+<div class="cointainer" style="padding-left: 20px">
+<div>
+    <h2>Installation and guide</h2>
+    <p>java -ar </p>
+    <p>If necessary install dependencies from pom.xml with "mvn install"</p>
+    <p>Application will be hosted on http://localhost:8080</p>
+    <p>Open your favorite API REST Client (Insomnia, Postmen..) and create account to test the application</p>
+
+</div>
+
+<div>
+    <h2>
+        API Specification
+    </h2>
+    <div>
+        <h4>Opening Account</h4>
+        <h5>RequestType: POST</h5>
+
+        <table style="border: 1px solid black">
+            <thead style="border: 1px solid black">
+            <tr>
+                <td>Uri:</td>
+                <td>
+                    /account
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">
+                    Required Field:
+                </td>
+                <td>
+                    "accountId"
+                </td>
+            </tr>
+            </thead>
+            <tr>
+                <td>Example:</td>
+                <td>
+                    {
+                    "accountId": "Marko"
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td>Response:</td>
+                <td>
+                    {
+                    "Password:": "bRa9UpXm",
+                    "Succes:": "true",
+                    "Description:": "Your account is opened"
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div>
+        <h4>Register URL </h4>
+        <h5>RequestType: POST</h5>
+        <table style="border: 1px solid black">
+            <thead style="border: 1px solid black">
+            <tr>
+                <td>
+                    Uri:
+                </td>
+                <td>
+                    /register
+                </td>
+            </tr>
+            <tr style="border: 1px solid black">
+                <td style="font-weight: bold">
+                    Authorization:
+                </td>
+                <td>
+                    Basic Authorization. accountId, password
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">
+                    Required Field:
+                </td>
+                <td>
+                    "uri"
+                </td>
+            </tr>
+            </thead>
+            <tr style="border: 1px solid black">
+                <td style="font-weight: bold">
+                    Response:
+                </td>
+                <td>
+                    "Shortener url" (example: http://localhost:8080/pyxftL)
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">
+                    Example:
+                </td>
+                <td>
+                    {"uri": "https://stackoverflow.com/questions/48575559/displaying-index-html-page-using-controller-spring-boot"}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <h4>View Url </h4>
+        <h5>RequestType: GET</h5>
+
+        <table style="border: 1px solid black">
+            <thead style="border: 1px solid black">
+            <tr>
+                <td style="font-weight: bold">
+                    Uri
+                </td>
+                <td>
+                    /{shortUrl}
+                </td>
+            </tr>
+            <tr>
+                <td style="font-weight: bold">
+                    Response
+                </td>
+                <td>
+                    Redirected url
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Example:
+                </td>
+                <td>
+                    http://localhost:8080/pyxftL/pyxftL redirects to original url
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div>
+        <h4>Statistic</h4>
+        <h5>RequestType: GET</h5>
+        <table style="border: 1px solid black">
+            <tr>
+                <td>
+                    Uri
+                </td>
+                <td>
+                    /statistic/{accountId}
+                </td>
+
+            </tr>
+            <tr style="border: 1px solid black">
+                <td style="font-weight: bold">
+                    Response:
+                </td>
+                <td>
+                    original url, view Integer
+                </td>
+
+            </tr>
+            <tr style="border: 1px solid black">
+                <td style="font-weight: bold">
+                    Example:
+                </td>
+                <td>
+                    {"https://stackoverflow.com/questions/48575559/displaying-index-html-page-using-controller-spring-boot": 3
+                    "https://spring.io/guides/gs/rest-service/": 53}
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+</div>
+</div>
+
+</body>
+<style>
+    th, td{
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+</style>
+</html>

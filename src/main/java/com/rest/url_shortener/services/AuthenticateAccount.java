@@ -4,11 +4,11 @@ import com.rest.url_shortener.model.Account;
 import com.rest.url_shortener.repository.AccountRepository;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -25,7 +25,7 @@ public class AuthenticateAccount implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) {
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException{
 
         if (authentication.isAuthenticated())
             return authentication;
@@ -34,11 +34,9 @@ public class AuthenticateAccount implements AuthenticationProvider {
         String password = authentication.getCredentials().toString();
 
         Account checkAcc = repository.findAccountByAccountId(accountId);
-        System.out.print(checkAcc);
-
 
         if (checkAcc == null ){
-            throw new UsernameNotFoundException("Account not found");
+            throw new BadCredentialsException("Account not found");
         }
         if (!checkAcc.getPassword().equals(password)){
             throw new BadCredentialsException("Bad credientials");

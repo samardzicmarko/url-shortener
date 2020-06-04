@@ -3,10 +3,10 @@ package com.rest.url_shortener.controllers;
 import com.rest.url_shortener.model.Account;
 import com.rest.url_shortener.repository.AccountRepository;
 
+import com.rest.url_shortener.services.GenerateRandomString;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,11 +16,6 @@ public class AccountController {
 
     AccountController(AccountRepository repository){
         this.repository = repository;
-    }
-
-    @GetMapping("/account")
-    List<Account> all(){
-        return repository.findAll();
     }
 
     @PostMapping(value = "/account", consumes = "application/json", produces = "application/json")
@@ -35,7 +30,7 @@ public class AccountController {
 
                 Account newAcc = new Account();
                 newAcc.setAccountId(account.getAccountId());
-                newAcc.setPassword(account.generatePassword());
+                newAcc.setPassword(GenerateRandomString.make(8));
                 HashMap<String, String> map = new HashMap<>();
                 map.put("Succes:", "true");
                 map.put("Description:", "Your account is opened");
@@ -45,7 +40,6 @@ public class AccountController {
             } else {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("Error:", "Sorry :(. Account with that username already exist. Try something else");
-                System.out.print(repository.existsAccountByAccountId((account.getAccountId())));
                 return map;
             }
     }

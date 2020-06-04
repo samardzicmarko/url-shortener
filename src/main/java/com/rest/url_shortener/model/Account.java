@@ -27,11 +27,6 @@ public class Account {
         this.password = password;
     }
 
-    Account(String AccountId, String password, Set<Url> urlList){
-        this.accountId = AccountId;
-        this.password = generatePassword();
-        this.urlList = urlList;
-    }
 
     public String getAccountId() {
         return accountId;
@@ -47,18 +42,6 @@ public class Account {
 
     public void setUrlList(Set<Url> urlList){
         this.urlList = urlList;
-    }
-
-    public String generatePassword(){
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvxyz";
-        StringBuilder sb = new StringBuilder(8);
-
-        for (int i = 0; i<8; i++){
-            int index = (int) (characters.length() * Math.random());
-            sb.append(characters.charAt(index));
-        }
-
-        return sb.toString();
     }
 
 
